@@ -183,6 +183,10 @@ plugin.normalizePayload = function(payload, callback) {
 		return callback(new Error('payload-invalid'));
 	}
 
+	if (typeof userData.username == 'number') {
+		userData.username = userData.username.toString();
+	}
+
 	if (userData.hasOwnProperty('groups') && !Array.isArray(userData.groups)) {
 		winston.warn('[session-sharing] Array expected for `groups` in JWT payload. Ignoring.');
 		delete userData.groups;
