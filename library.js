@@ -174,17 +174,16 @@ plugin.normalizePayload = function(payload, callback) {
 	if (!userData.username) {
 		userData.username = userData.fullname;
 	}
-
+	
+	if (typeof userData.username == 'number') {
+		userData.username = userData.username.toString();
+	}
 	/* strip username from illegal characters */
 	userData.username = userData.username.trim().replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, '-');
 
 	if (!userData.username) {
 		winston.warn('[session-sharing] No valid username could be determined');
 		return callback(new Error('payload-invalid'));
-	}
-
-	if (typeof userData.username == 'number') {
-		userData.username = userData.username.toString();
 	}
 
 	if (userData.hasOwnProperty('groups') && !Array.isArray(userData.groups)) {
