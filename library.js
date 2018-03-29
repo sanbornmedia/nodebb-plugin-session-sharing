@@ -207,7 +207,7 @@ plugin.findOrCreateUser = function(userData, callback) {
 	if (userData.email && userData.email.length) {
 		queries.mergeUid = async.apply(db.sortedSetScore, 'email:uid', userData.email);
 	}
-	queries.uid = async.apply(db.sortedSetScore, plugin.settings.name + ':uid', userData.id);
+	queries.uid = async.apply(db.getObjectField, plugin.settings.name + ':uid', userData.id);
 
 	async.parallel(queries, function(err, checks) {
 		if (err) { return callback(err); }
