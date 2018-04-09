@@ -205,7 +205,7 @@ plugin.verifyUser = function(uid, callback) {
 plugin.findOrCreateUser = function(userData, callback) {
 	var queries = {};
 	if (userData.email && userData.email.length) {
-		queries.mergeUid = async.apply(db.sortedSetScore, 'email:uid', userData.email);
+		queries.mergeUid = async.apply(db.sortedSetScore, 'email:uid', userData.email.toLowerCase());
 	}
 	queries.uid = async.apply(db.getObjectField, plugin.settings.name + ':uid', userData.id);
 
