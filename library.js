@@ -95,6 +95,7 @@ SocketPlugins.sessionSharing.showUserIds = function(socket, data, callback) {
 
 	if (uids.length) {
 		async.map(uids, function (uid, next) {
+			uid = parseInt(uid);
 			db.getSortedSetRangeByScore(plugin.settings.name + ':uid', 0, -1, uid, uid, next);
 		}, function (err, remoteIds) {
 			remoteIds.forEach(function (remoteId, idx) {
@@ -441,7 +442,7 @@ plugin.addMiddleware = function(req, res, next) {
 						req.uid = uid;
 						nbbAuthController.doLogin(req, uid, function () {
 							req.session.loginLock = true;
-							res.redirect(req.originalUrl);
+							res.redirect(308, req.originalUrl);
 						});
 					});
 				} else if (hasSession) {
